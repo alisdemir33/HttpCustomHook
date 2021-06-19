@@ -2,18 +2,21 @@ import React, { useEffect, useState } from 'react';
 
 import Tasks from './components/Tasks/Tasks';
 import NewTask from './components/NewTask/NewTask';
+import useHttp from './hooks/httpHook'
 
 function App() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+/*   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null); */
   const [tasks, setTasks] = useState([]);
 
-  const fetchTasks = async (taskText) => {
+  const {loading,error,sendRequest,data} = useHttp(); 
+
+  /* const fetchTasks = async (taskText) => {
     setIsLoading(true);
     setError(null);
     try {
       const response = await fetch(
-        'https://react-http-asd-default-rtdb.europe-west1.firebasedatabase.app/tasksss.json'
+        'https://react-http-asd-default-rtdb.europe-west1.firebasedatabase.app/tasks.json'
       );
 ;debugger
       if (!response.ok) {
@@ -38,23 +41,44 @@ function App() {
     }
     setIsLoading(false);
   };
-
+ */
   useEffect(() => {
-    fetchTasks();
+   // fetchTasks();
+   fetchTasksHandler();
   }, []);
+
+  useEffect ( () =>{
+    if(!error && !loading && data ){
+      const loadedTasks = [];
+  
+      for (const taskKey in data) {
+        loadedTasks.push({ id: taskKey, text: data[taskKey].text });
+      }
+  
+      setTasks(loadedTasks);
+    }
+  },[data,loading,error])
 
   const taskAddHandler = (task) => {
     setTasks((prevTasks) => prevTasks.concat(task));
   };
+
+  const fetchTasksHandler = () => {
+    ;debugger
+    sendRequest('https://react-http-asd-default-rtdb.europe-west1.firebasedatabase.app/tasks.json','GET')
+
+    ;debugger
+    
+  }
 
   return (
     <React.Fragment>
       <NewTask onAddTask={taskAddHandler} />
       <Tasks
         items={tasks}
-        loading={isLoading}
+        loading={loading}
         error={error}
-        onFetch={fetchTasks}
+        onFetch={fetchTasksHandler}
       />
     </React.Fragment>
   );
