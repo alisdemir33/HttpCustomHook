@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Tasks from './components/Tasks/Tasks';
 import NewTask from './components/NewTask/NewTask';
 
+//main changerd at local
 function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
