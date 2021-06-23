@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useCallback } from 'react';
 
 import Tasks from './components/Tasks/Tasks';
 import NewTask from './components/NewTask/NewTask';
@@ -59,9 +59,15 @@ function App() {
     }
   },[data,loading,error])
 
-  const taskAddHandler = (task) => {
+  const taskAddHandler = useCallback(
+   (task) => {
     setTasks((prevTasks) => prevTasks.concat(task));
-  };
+   },
+   []);
+ 
+/*  const taskAddHandler = (task) => {
+    setTasks((prevTasks) => prevTasks.concat(task));
+  }; */
 
   const fetchTasksHandler = () => {
     ;debugger
