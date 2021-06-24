@@ -48,11 +48,12 @@ const useHttp = () => {
 
             const data = await response.json();
             if (data === null) {
-                dispatchHttpAction({  type: 'ERROR', payload: null  });
+                dispatchHttpAction({  type: 'ERROR', payload: 'cant fetch data'  });
                 // throw new Error('Request failed!');
-            }
+            }else{
 
-            dispatchHttpAction({  type: 'RESPONSE', payload: data  })
+                 dispatchHttpAction({  type: 'RESPONSE', payload: data  })
+            }
             /* 
                   const loadedTasks = [];
             
